@@ -6,6 +6,7 @@ import service.impl.BookServiceImpl;
 import utils.WebUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import java.io.IOException;
  * @author lppppp
  * @create 2021-01-06 10:47
  */
+@WebServlet("/client/bookServlet")
 public class ClientServlet extends BaseServlet {
     BookServiceImpl bookService = BookServlet.getBookService();
     protected void page(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

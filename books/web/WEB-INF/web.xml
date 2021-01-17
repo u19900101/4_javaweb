@@ -25,33 +25,33 @@
     </filter-mapping>-->
 
 
-    <servlet>
+<!--    <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>web.UserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/userServlet</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
 
-    <servlet>
-        <servlet-name>BookServlet</servlet-name>
-        <servlet-class>web.BookServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>BookServlet</servlet-name>
-        <url-pattern>/manage/bookServlet</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>BookServlet</servlet-name>-->
+        <!--<servlet-class>web.BookServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>BookServlet</servlet-name>-->
+        <!--<url-pattern>/manage/bookServlet</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-    <servlet>
+   <!-- <servlet>
         <servlet-name>ClientServlet</servlet-name>
         <servlet-class>web.ClientServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ClientServlet</servlet-name>
         <url-pattern>/client/bookServlet</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <!-- 配置谷歌打包的验证码 -->
     <servlet>
@@ -64,23 +64,23 @@
     </servlet-mapping>
 
 
-    <servlet>
+   <!-- <servlet>
         <servlet-name>CartServlet</servlet-name>
         <servlet-class>web.CartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/client/cartServlet</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
-    <servlet>
+  <!--  <servlet>
         <servlet-name>OrderServlet</servlet-name>
         <servlet-class>web.OrderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>OrderServlet</servlet-name>
         <url-pattern>/client/orderServlet</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
 
   <!--  <error-page>

@@ -7,6 +7,7 @@ import pojo.CartItem;
 import service.impl.BookServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import static web.BookServlet.getBookService;
  * @author lppppp
  * @create 2021-01-07 21:45
  */
+@WebServlet("/client/cartServlet")
 public class CartServlet extends BaseServlet {
     BookServiceImpl bookService =  getBookService();
     protected void updateCount(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

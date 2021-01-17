@@ -16,6 +16,7 @@ import service.impl.UserServiceImpl;
 import utils.WebUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,7 @@ import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
  * @author lppppp
  * @create 2021-01-03 20:11
  */
-
+@WebServlet("/userServlet")
 public class UserServlet extends BaseServlet {
 
     public UserService userService=getUserService();

@@ -12,6 +12,7 @@ import service.impl.UserServiceImpl;
 import utils.WebUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.List;
  * @author lppppp
  * @create 2021-01-04 13:37
  */
+@WebServlet("/manage/bookServlet")
 public class BookServlet extends BaseServlet {
     BookServiceImpl bookService = getBookService();
 

@@ -11,6 +11,7 @@ import service.impl.OrderServiceImpl;
 import service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import static pojo.Status.CHECKEDRECEIVED;
  * @author lppppp
  * @create 2021-01-08 15:07
  */
+@WebServlet("/client/orderServlet")
 public class OrderServlet extends BaseServlet {
     OrderServiceImpl orderService = getOrderService();
 
