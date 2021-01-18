@@ -18,13 +18,11 @@ import java.sql.Connection;
  */
 @Repository
 @Transactional
-public class OrderDaoImpl extends BaseDao implements OrderDao {
-    @Autowired
-    public JdbcTemplate jdbcTemplate;
+public class OrderDaoImpl extends BaseDao<Order> implements OrderDao {
     @Override
     public void createOrder(Order order) {
         String sql ="INSERT INTO t_order(id,create_time,`count`,`totalPrice`,`user_id`) VALUES(?,?,?,?,?)";
-        int update = jdbcTemplate.update(sql,order.getId(),order.getCreate_time(),
+        int update = update(sql,order.getId(),order.getCreate_time(),
                 order.getCount(),order.getTotalPrice(),order.getUser_id());
         if(update>0){
             System.out.println("添加了订单");
@@ -37,7 +35,7 @@ public class OrderDaoImpl extends BaseDao implements OrderDao {
         String sql ="INSERT INTO t_orderItem"
         +"(`name`,`count`,`price`,`totalPrice`,`order_id`)"
         +"VALUES(?,?,?,?,?)";
-        int update = jdbcTemplate.update(sql,orderItem.getName(),orderItem.getCount()
+        int update = update(sql,orderItem.getName(),orderItem.getCount()
         ,orderItem.getPrice(),orderItem.getTotalPrice(),orderItem.getOrder_id());
         if(update>0){
             System.out.println("添加了订单Item");

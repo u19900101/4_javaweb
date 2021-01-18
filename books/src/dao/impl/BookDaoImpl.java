@@ -24,13 +24,11 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public class BookDaoImpl extends BaseDao implements BookDao {
-    @Autowired
-    public JdbcTemplate jdbcTemplate;
+public class BookDaoImpl extends BaseDao<Book> implements BookDao {
     @Override
     public int addBook(Book book) {
         String sql = "insert into t_book(name,author,price,sales,stock,img_path)values(?,?,?,?,?,?)";
-        int update = jdbcTemplate.update(sql,book.getName(),book.getAuthor(),book.getPrice()
+        int update = update(sql,book.getName(),book.getAuthor(),book.getPrice()
                                     ,book.getSales(),book.getStock(),book.getImgPath());
         if(update>0){
             System.out.println(" addBook succeed ...");
@@ -41,7 +39,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
     @Override
     public int updateBookById(Book book) {
         String sql = "update t_book set name=?,author=?,price=?,sales=?,stock=?,img_path=? where id = ?";
-        int update = jdbcTemplate.update(sql,book.getName(),book.getAuthor(),book.getPrice()
+        int update = update(sql,book.getName(),book.getAuthor(),book.getPrice()
                 ,book.getSales(),book.getStock(),book.getImgPath(),book.getId());
         if(update>0){
             System.out.println(" updateBookById succeed ...");
@@ -52,7 +50,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
     @Override
     public int deleteBook(Integer id) {
         String sql = "delete from  t_book  where id = ?";
-        int update = jdbcTemplate.update(sql,id);
+        int update = update(sql,id);
         if(update>0){
             System.out.println(" deleteBook succeed ...");
         }
@@ -65,7 +63,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
         Book book=null;
         String sql = "select `id` , `name` , `author` , `price` , `sales` , `stock` , `img_path` imgPath from t_book where id = ?";
         try {
-            book = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Book.class), id);
+            book = getInsance(sql, id);
         }catch (Exception e){
             System.out.println(e);
         }finally {
@@ -78,7 +76,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
         String sql = "select `id` , `name` , `author` , `price` , `sales` , `stock` , `img_path` imgPath from t_book";
         List<Book> bookList = null;
         try {
-            bookList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class));
+            bookList = getInsanceList(sql);
         }catch (Exception e){
             System.out.println(e);
         }finally {
@@ -92,9 +90,9 @@ public class BookDaoImpl extends BaseDao implements BookDao {
     @Override
     public int getSingleValue() {
         String sql = "select count(*) from t_book";
-        Integer integer = jdbcTemplate.queryForObject(sql, Integer.class);
+        long integer = (Long) getSingleValue(sql, Integer.class);
         // long singleValue = (Long) getSingleValue(conn, sql);
-        return integer;
+        return (int)integer;
     }
 
 
@@ -103,7 +101,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
         String sql = "select `id` , `name` , `author` , `price` , `sales` , `stock` , `img_path` imgPath from t_book limit ?,?";
         List<Book> bookList =null;
         try {
-            bookList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class),begin,size);
+            bookList = getInsanceList(sql,begin,size);
         }catch (Exception e){
             System.out.println(e);
         }finally {
@@ -114,8 +112,8 @@ public class BookDaoImpl extends BaseDao implements BookDao {
     @Override
     public int getCountByPrice(int min, int max) {
         String sql = "select count(*) from t_book where price between ? and ?";
-        Integer integer = jdbcTemplate.queryForObject(sql, Integer.class,min,max);
-        return integer;
+        long integer = (Long)getSingleValue(sql, Integer.class,min,max);
+        return (int) integer;
     }
 
     @Override
@@ -124,7 +122,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
                 "t_book where price between ? and ? order by price limit ?,?";
         List<Book> bookList =null;
         try {
-            bookList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class),min,max,begin,size);
+            bookList = getInsanceList(sql,min,max,begin,size);
         }catch (Exception e){
             System.out.println(e);
         }finally {

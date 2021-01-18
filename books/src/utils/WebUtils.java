@@ -31,6 +31,7 @@ public class WebUtils {
 
     public static <T>T getBean(Class<T> clazz){
         ApplicationContext context = new AnnotationConfigApplicationContext(TxConfig.class);
+        System.out.println(context.getBean(clazz));
         return context.getBean(clazz);
     }
 
