@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import pojo.Book;
 import pojo.Cart;
 import pojo.CartItem;
+import service.BookService;
 import service.impl.BookServiceImpl;
+import utils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static web.BookServlet.getBookService;
 
 /**
  * @author lppppp
@@ -23,7 +24,7 @@ import static web.BookServlet.getBookService;
  */
 @WebServlet("/client/cartServlet")
 public class CartServlet extends BaseServlet {
-    BookServiceImpl bookService =  getBookService();
+    BookService bookService =  WebUtils.getBean(BookService.class);
     protected void updateCount(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         int count = Integer.parseInt(req.getParameter("count"));

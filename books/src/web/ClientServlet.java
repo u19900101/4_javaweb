@@ -2,6 +2,7 @@ package web;
 
 import pojo.Book;
 import pojo.Page;
+import service.BookService;
 import service.impl.BookServiceImpl;
 import utils.WebUtils;
 
@@ -18,7 +19,7 @@ import java.io.IOException;
  */
 @WebServlet("/client/bookServlet")
 public class ClientServlet extends BaseServlet {
-    BookServiceImpl bookService = BookServlet.getBookService();
+    BookService bookService = WebUtils.getBean(BookService.class);
     protected void page(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("come into ClientServlet...");
         int pageNo = WebUtils.parseInt(req.getParameter("pageNo"),1);

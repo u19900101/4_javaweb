@@ -1,7 +1,13 @@
 package utils;
 
+import config.TxConfig;
 import org.apache.commons.beanutils.BeanUtils;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import pojo.User;
+import service.BookService;
+import service.impl.OrderServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -21,6 +27,17 @@ public class WebUtils {
         }
         System.out.println(t);
         return t;
+    }
+
+    public static <T>T getBean(Class<T> clazz){
+        ApplicationContext context = new AnnotationConfigApplicationContext(TxConfig.class);
+        return context.getBean(clazz);
+    }
+
+    @Test
+    public void T(){
+        BookService bean = getBean(BookService.class);
+        System.out.println(bean);
     }
 
 

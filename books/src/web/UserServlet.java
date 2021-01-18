@@ -36,7 +36,7 @@ import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 @WebServlet("/userServlet")
 public class UserServlet extends BaseServlet {
 
-    public UserService userService=getUserService();
+    public UserService userService=WebUtils.getBean(UserService.class);
     private void ajaxexistUsername(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         String username = req.getParameter("username");

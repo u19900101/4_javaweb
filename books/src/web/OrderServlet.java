@@ -5,10 +5,13 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import pojo.*;
+import service.BookService;
+import service.OrderService;
 import service.UserService;
 import service.impl.BookServiceImpl;
 import service.impl.OrderServiceImpl;
 import service.impl.UserServiceImpl;
+import utils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,15 +33,8 @@ import static pojo.Status.CHECKEDRECEIVED;
  */
 @WebServlet("/client/orderServlet")
 public class OrderServlet extends BaseServlet {
-    OrderServiceImpl orderService = getOrderService();
-
-    private OrderServiceImpl getOrderService() {
-        ApplicationContext context = new AnnotationConfigApplicationContext(TxConfig.class);
-        OrderServiceImpl orderService = context.getBean("orderServiceImpl", OrderServiceImpl.class);
-        return orderService;
-    }
-
-    BookServiceImpl bookService = BookServlet.getBookService();
+    OrderService orderService = WebUtils.getBean(OrderService.class);
+    BookService bookService = WebUtils.getBean(BookService.class);
     protected void createOrder(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         // 1.将购物车里的东西转化为orderItem 以及 order
         Cart cart = (Cart)req.getSession().getAttribute("cart");
