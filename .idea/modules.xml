@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/books/books.iml" filepath="$PROJECT_DIR$/books/books.iml" />
+      <module fileurl="file://$PROJECT_DIR$/books_maven/books_maven.iml" filepath="$PROJECT_DIR$/books_maven/books_maven.iml" />
     </modules>
   </component>
 </project>
