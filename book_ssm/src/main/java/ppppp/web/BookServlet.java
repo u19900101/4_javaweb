@@ -1,11 +1,16 @@
 package ppppp.web;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import ppppp.g_dao.BookMapper;
 import ppppp.pojo.Book;
+import ppppp.pojo.BookExample;
 import ppppp.pojo.Page;
 import ppppp.service.impl.BookServiceImpl;
 import ppppp.utils.WebUtils;
@@ -25,12 +30,32 @@ import java.util.List;
 public class BookServlet{
     @Autowired
     BookServiceImpl bookService;
-    @RequestMapping("/list")
-    public String list(Model model){
-        List<Book> books = bookService.queryBooks();
-        model.addAttribute("books",books);
+    @Autowired
+    BookMapper bookMapper;
+    @RequestMapping("/page")
+    public String page(@RequestParam(value = "pageNo",defaultValue = "1") Integer pageNum, Model model) {
+
+        PageHelper.startPage(pageNum, 5);
+
+        //紧跟着的第一条查询语句才有用  后面的无分页功能
+        List<Book> books = bookMapper.selectByExample(new BookExample());
+        //传入要连续显示多少页
+        PageInfo<Book> info = new PageInfo<>(books, 5);
+
+        System.out.println("当前页码：" + info.getPageNum());//  5
+        System.out.println("总记录数：" + info.getTotal());// 1010
+        System.out.println("每页的记录数：" + info.getPageSize());// 1
+        System.out.println("总页码：" + info.getPages());// 1010
+        System.out.println("是否第一页：" + info.isIsFirstPage()); //false
+        System.out.println("连续显示的页码："); //3 4 5 6 7
+
+        model.addAttribute("info", info);
+        System.out.println(info);
         return "forward:/pages/manage/book_manage.jsp";
+
     }
+
+    @RequestMapping("/getBook")
     protected void add(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("come into add ...");
         Book book = WebUtils.copyBean(req.getParameterMap(), new Book());

@@ -34,43 +34,6 @@
 		<%@include file="/pages/common/manage_menu.jsp"%>
 	</div>
 	<div id="main">
-
-		<%--<div id="page_nav">
-			<c:if test="${requestScope.page.pageNo>1}">
-				<a href="manage/bookServlet?action=page&pageNo=1">首页</a>
-				<a href="manage/bookServlet?action=page&pageNo=${requestScope.page.pageNo-1}">上一页</a>
-			</c:if>
-				<a href="manage/bookServlet?action=page&pageNo=${requestScope.page.pageNo-1}">${requestScope.page.pageNo-1}</a>
-
-
-			【${requestScope.page.pageNo}】
-
-			<c:if test="${requestScope.page.pageNo<requestScope.page.pageTotal}">
-				<a href="manage/bookServlet?action=page&pageNo=${requestScope.page.pageNo+1}">${requestScope.page.pageNo+1}</a>
-				<a href="manage/bookServlet?action=page&pageNo=${requestScope.page.pageNo+1}">下一页</a>
-				<a href="manage/bookServlet?action=page&pageNo=${requestScope.page.pageTotal}">末页</a>
-			</c:if>
-			共${ requestScope.page.pageTotal}页，${ requestScope.page.pageTotalCount}条记录 到第
-			<input value="${param.pageNo}" name="pn" id="pn_input"/>页
-			<input type="button" value="确定" id = "searchBtn">
-
-			&lt;%&ndash; 写js代码 绑定跳转页面按钮&ndash;%&gt;
-			<script type="text/javascript">
-				$(function () {
-					$("#searchBtn").click(function () {
-						// alert(location.href);http://localhost:8080/6_books/manage/bookServlet?action=page&pageNo=6
-						var pn = $("#pn_input").val();
-						if(pn<=${requestScope.page.pageTotal}&&pn>0){
-							location.href = "${pageScope.basePath}manage/bookServlet?action=page&pageNo="+pn;
-						}else {
-							alert("页面输入有误，请重新输入");
-							$("#pn_input").val(${requestScope.page.pageNo});
-						}
-					})
-				});
-			</script>
-		</div>--%>
-
 		<table>
 			<tr>
 				<td>名称</td>
@@ -80,14 +43,15 @@
 				<td>库存</td>
 				<td colspan="2">操作</td>
 			</tr>
-			<c:forEach items="${ requestScope.page.items }" var="book">
+
+			<c:forEach items="${info.list}" var="book">
 				<tr>
 					<td>${book.name}</td>
 					<td>${book.price}</td>
 					<td>${book.author}</td>
 					<td>${book.sales}</td>
 					<td>${book.stock}</td>
-					<td><a href="manage/bookServlet?action=getBook&id=${book.id}&pageNo=${requestScope.page.pageNo}">修改</a></td>
+					<td><a href="manage/bookServlet/getBook?id=${book.id}&pageNo=${requestScope.page.pageNo}">修改</a></td>
 					<td><a class="deleteClass" href="manage/bookServlet?action=delete&id=${book.id}&pageNo=${requestScope.page.pageNo}">删除</a></td>
 				</tr>
 			</c:forEach>

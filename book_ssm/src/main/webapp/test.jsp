@@ -3,6 +3,6 @@
 
 <html>
 <body>
-<h1> <a href="manage/bookServlet/list">图书列表</a>  </h1>
+<h1> <a href="manage/bookServlet/page">图书列表</a>  </h1>
 </body>
 </html>
