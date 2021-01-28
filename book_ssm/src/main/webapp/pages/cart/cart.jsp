@@ -26,7 +26,7 @@
 					count = count>0?count:-count;
 					if( confirm("你确定要将[" + name + "] 商品修改数量为：" + count + " 吗?") ) {
 						//发起请求。给服务器保存修改
-						location.href = "client/cartServlet?action=updateCount&count="+count+"&id="+id;
+						location.href = "client/cartServlet/updateCount?count="+count+"&id="+id;
 					} else {
 						// defaultValue属性是表单项Dom对象的属性。它表示默认的value属性值。
 						this.value = this.defaultValue;
@@ -37,8 +37,6 @@
 				}
 
 			});
-
-
 			$("#clearCart").click(function () {
 				return confirm("是否要清空购物车？");
 			});
@@ -53,8 +51,6 @@
 
 		<%--静态包含，登录 成功之后的菜单 --%>
 		<%@ include file="/pages/common/login_success_menu.jsp"%>
-
-
 	</div>
 	
 	<div id="main">
@@ -84,7 +80,7 @@
 						</td>
 						<td>${item.value.price}</td>
 						<td>${item.value.totalPrice}</td>
-						<td><a class="deleteItem" href="client/cartServlet?action=deleteItem&id=${item.value.id}">删除</a></td>
+						<td><a class="deleteItem" href="client/cartServlet/deleteItem?id=${item.value.id}">删除</a></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -94,8 +90,8 @@
 			<div class="cart_info">
 				<span class="cart_span">购物车中共有<span class="b_count">${sessionScope.cart.totalCount}</span>件商品</span>
 				<span class="cart_span">总金额<span class="b_price">${sessionScope.cart.totalPrice}</span>元</span>
-				<span class="cart_span"><a id = "clearCart" href="client/cartServlet?action=clearCart">清空购物车</a></span>
-				<span class="cart_span"><a href="client/orderServlet?action=createOrder">去结账</a></span>
+				<span class="cart_span"><a id = "clearCart" href="client/cartServlet/clearCart">清空购物车</a></span>
+				<span class="cart_span"><a href="client/orderServlet/createOrder">去结账</a></span>
 			</div>
 		</c:if>
 	</div>

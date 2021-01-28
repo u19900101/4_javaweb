@@ -1,13 +1,16 @@
+/*
 package ppppp.utils;
 
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.util.Map;
 
+*/
 /**
  * @author lppppp
  * @create 2021-01-04 8:38
- */
+ *//*
+
 public class WebUtils {
 
     public static <T>T copyBean(Map map, T t){
@@ -32,3 +35,4 @@ public class WebUtils {
         return defaultValue;
     }
 }
+*/

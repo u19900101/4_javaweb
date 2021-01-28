@@ -2,9 +2,10 @@ package ppppp.web;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ppppp.pojo.User;
 import ppppp.service.UserService;
-import ppppp.utils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author lppppp
  * @create 2021-01-03 20:11
  */
-
-public class UserServlet extends BaseServlet {
+@Controller
+@RequestMapping("/client/userServlet")
+public class UserServlet{
     @Autowired
     UserService userService;
     private void ajaxexistUsername(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -32,15 +33,18 @@ public class UserServlet extends BaseServlet {
         res.getWriter().write( new Gson().toJson(map));
 
     }
-
+    // @RequestMapping("/register")
+  /*
     private void register(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("come into do register ...");
         // 封装User
 
-  /*  String username = req.getParameter("username");
+    */
+/*  String username = req.getParameter("username");
     String password = req.getParameter("password");
     String email = req.getParameter("email");
-   */
+   */  /*
+
         Map<String, String[]> parameterMap = req.getParameterMap();
         User user = WebUtils.copyBean(parameterMap,new User("kk11112", "kk1"));
 
@@ -53,7 +57,9 @@ public class UserServlet extends BaseServlet {
         req.setAttribute("email",user.getEmail());
         req.setAttribute("code",code);
 
-        /*防止用户重复提交*/
+          */
+/*防止用户重复提交*/  /*
+
         //获取session
         // String token = (String)req.getSession().getAttribute(KAPTCHA_SESSION_KEY);
         // // 将session中的该值置为null
@@ -77,30 +83,31 @@ public class UserServlet extends BaseServlet {
         // }
 
     }
+  */
+    /*@RequestMapping("/logout")
     private void logout(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.getSession().removeAttribute("user");
         //还要清空购物车session
         req.getSession().removeAttribute("cart");
         res.sendRedirect("index.jsp");
-    }
-    private void login(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    }*/
+    @RequestMapping("/login")
+    private String login(HttpServletRequest req, User user) throws ServletException, IOException {
         System.out.println("come into login");
-
-        User user = WebUtils.copyBean(req.getParameterMap(), new User("kk11112", "kk1"));
         User login = userService.login(user);
         if(login!=null){
             // login succeed
             req.setAttribute("msg","login succeed");
             req.getSession().setAttribute("user",login);
             req.getSession().setMaxInactiveInterval(60*60*24*7);
-            req.getRequestDispatcher("/pages/user/login_success.jsp").forward(req,res);
+            return "forward:/pages/user/login_success.jsp";
         }else {
             // failed
             req.setAttribute("msg","用户名或密码不存在");
             req.setAttribute("username", URLEncoder.encode(user.getUsername(), "UTF-8"));
 
             req.setAttribute("password",user.getPassword());
-            req.getRequestDispatcher("/pages/user/login.jsp").forward(req,res);
+            return "forward:/pages/user/login.jsp";
         }
     }
 

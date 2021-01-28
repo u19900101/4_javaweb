@@ -50,20 +50,14 @@
 								</span>
 							</div>
 							<div class="form">
-								<form action="userServlet" method="post">
-									<input type="hidden" name="action" value="login" />
+								<form action="client/userServlet/login" method="post">
 									<label>用户名称：</label>
 									<input class="itxt" type="text" placeholder="请输入用户名"
 										   autocomplete="off" tabindex="1" name="username"
-										   value="${requestScope.username}" id="username"
-                                    />
-									<br />
-									<br />
+										   value="${requestScope.username}" id="username"/>
 									<label>用户密码：</label>
 									<input class="itxt" type="password" placeholder="请输入密码"
-										   autocomplete="off" tabindex="1" name="password" />
-									<br />
-									<br />
+										   autocomplete="off" tabindex="1" name="password" /><br /><br />
 									<input type="submit" value="登录" id="sub_btn" />
 								</form>
 							</div>

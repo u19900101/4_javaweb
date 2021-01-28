@@ -2,6 +2,10 @@ package ppppp.web;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ppppp.pojo.Book;
 import ppppp.pojo.Cart;
 import ppppp.pojo.CartItem;
@@ -19,12 +23,13 @@ import java.util.Map;
  * @author lppppp
  * @create 2021-01-07 21:45
  */
-public class CartServlet extends BaseServlet {
+@Controller
+@RequestMapping("/client/cartServlet")
+public class CartServlet{
     @Autowired
     BookServiceImpl bookService;
-    protected void updateCount(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        int count = Integer.parseInt(req.getParameter("count"));
+    @RequestMapping("/updateCount")
+    protected void updateCount(HttpServletRequest req, HttpServletResponse res,Integer id,Integer count) throws ServletException, IOException {
         System.out.println("come into updateCount");
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         if(cart.getItems().get(id).getCount()<count){
@@ -34,14 +39,15 @@ public class CartServlet extends BaseServlet {
         res.sendRedirect(req.getHeader("Referer"));
 
     }
+    @RequestMapping("/clearCart")
     protected void clearCart(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         cart.clear();
         res.sendRedirect(req.getHeader("Referer"));
     }
 
-    protected void deleteItem(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
+    @RequestMapping("/deleteItem")
+    protected void deleteItem(HttpServletRequest req, HttpServletResponse res,Integer id) throws ServletException, IOException {
         System.out.println("come into deleteItem");
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         cart.deleteItem(id);
@@ -50,9 +56,12 @@ public class CartServlet extends BaseServlet {
         bookService.updateBookById(book);
         res.sendRedirect(req.getHeader("Referer"));
     }
-    protected void addItem(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    protected String addItem(HttpServletRequest req, Integer id){
         System.out.println("come into addItem");
-        int id = Integer.parseInt(req.getParameter("id"));
+
         Book book = bookService.queryBookById(id);
 
         CartItem cartItem =new CartItem(id,book.getName(),1,book.getPrice(),book.getPrice().multiply(new BigDecimal(1)));
@@ -79,7 +88,9 @@ public class CartServlet extends BaseServlet {
         map.put("lastAddBook",book.getName());
         // 判断是否是第一次加入购物车
         map.put("createCart", flag);
-        res.getWriter().write(new Gson().toJson(map));
+        String s = new Gson().toJson(map);
+        return s;
+        // res.getWriter().write(new Gson().toJson(map));
 
     }
 }

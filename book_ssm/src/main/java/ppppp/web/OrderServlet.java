@@ -1,6 +1,8 @@
 package ppppp.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ppppp.pojo.*;
 import ppppp.service.impl.BookServiceImpl;
 import ppppp.service.impl.OrderServiceImpl;
@@ -18,11 +20,14 @@ import static ppppp.pojo.Status.CHECKEDRECEIVED;
  * @author lppppp
  * @create 2021-01-08 15:07
  */
-public class OrderServlet extends BaseServlet {
+@Controller
+@RequestMapping("/client/orderServlet")
+public class OrderServlet{
     @Autowired
     OrderServiceImpl orderService;
     @Autowired
     BookServiceImpl bookService;
+    @RequestMapping("/createOrder")
     protected void createOrder(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         // 1.将购物车里的东西转化为orderItem 以及 order
         Cart cart = (Cart)req.getSession().getAttribute("cart");

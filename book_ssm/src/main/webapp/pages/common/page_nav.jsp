@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--分页条的开始--%>
 <div id="page_nav">
-        <a href="manage/bookServlet/page?pageNum=1">首页</a>
+        <a href="${controllerName}/bookServlet/page?pageNum=1">首页</a>
         <c:if test="${info.pageNum > 1}">
-            <a href="manage/bookServlet/page?pageNum=${info.prePage}">上一页</a>
+            <a href="${controllerName}/bookServlet/page?pageNum=${info.prePage}">上一页</a>
         </c:if>
 
         <c:forEach items="${info.navigatepageNums}" var="pn">
@@ -18,14 +18,14 @@
                 【${pn}】
             </c:if>
             <c:if test="${pn != info.pageNum}">
-                <a href="manage/bookServlet/page?pageNum=${pn}">${pn}</a>
+                <a href="${controllerName}/bookServlet/page?pageNum=${pn}">${pn}</a>
             </c:if>
         </c:forEach>
         <c:if test="${info.pageNum < info.pages}">
-            <a href="manage/bookServlet/page?pageNum=${info.nextPage}">下一页</a>
+            <a href="${controllerName}/bookServlet/page?pageNum=${info.nextPage}">下一页</a>
         </c:if>
 
-        <a href="manage/bookServlet/page?pageNum=${info.pages}">尾页</a>
+        <a href="${controllerName}/bookServlet/page?pageNum=${info.pages}">尾页</a>
     共${info.pages}页，${info.total }条记录
     到第<input value="${info.pageNum}" name="pn" id="pn_input"/>页
     <input id="searchPageBtn" type="button" value="确定">
@@ -46,7 +46,7 @@
                     //强转  排除 +5  这种bug
                     pageNum = Number(pageNum);
                     if(pageNum<=pageTotal&&pageNum>0){
-                        location.href = "${pageScope.basePath}manage/bookServlet/page?pageNum=" + pageNum;
+                        location.href = "${pageScope.basePath}${controllerName}/bookServlet/page?pageNum=" + pageNum;
                     }else {
                         alert("页码输入错误,请从新输入");
                     }
