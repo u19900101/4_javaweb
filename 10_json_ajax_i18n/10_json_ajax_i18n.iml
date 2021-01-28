@@ -19,19 +19,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.8" level="application_server_libraries" />
-    <orderEntry type="module-library">
-      <library name="gson-2.2.4">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/web/WEB-INF/lib/gson-2.2.4.jar!/" />
-          <root url="jar://$MODULE_DIR$/web/WEB-INF/lib/hamcrest-core-1.3.jar!/" />
-          <root url="jar://$MODULE_DIR$/web/WEB-INF/lib/junit-4.12.jar!/" />
-          <root url="jar://$MODULE_DIR$/web/WEB-INF/lib/taglibs-standard-impl-1.2.1.jar!/" />
-          <root url="jar://$MODULE_DIR$/web/WEB-INF/lib/taglibs-standard-spec-1.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="lib5" level="project" />
+    <orderEntry type="library" name="lib2" level="project" />
+    <orderEntry type="library" name="lib4" level="project" />
+    <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="lib3" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="lib6" level="project" />
+    <orderEntry type="library" name="lib8" level="project" />
   </component>
 </module>
