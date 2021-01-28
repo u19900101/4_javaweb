@@ -52,14 +52,8 @@
 					</tr>	
 				</table>
 			</form>
-			
-	
 		</div>
-
-
 		<%--静态包含页脚内容--%>
 		<%@include file="/pages/common/footer.jsp"%>
-
-
 </body>
 </html>

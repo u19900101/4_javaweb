@@ -51,7 +51,7 @@
 					<td>${book.author}</td>
 					<td>${book.sales}</td>
 					<td>${book.stock}</td>
-					<td><a href="manage/bookServlet?id=${book.id}&pageNo=${info.pageNum}">修改</a></td>
+					<td><a href="manage/bookServlet?id=${book.id}&pageNum=${info.pageNum}">修改</a></td>
 					<td><a class="deleteItem" href="manage/bookServlet?id=${book.id}&pageNum=${info.pageNum}">删除</a></td>
 				</tr>
 			</c:forEach>
@@ -63,6 +63,7 @@
 			<input type="hidden" name="_method" value="DELETE">
 		</form>
 
+		<%--删除图书的 js --%>
 		<script type="text/javascript">
 			$(function () {
 				$(".deleteItem").click(function () {
