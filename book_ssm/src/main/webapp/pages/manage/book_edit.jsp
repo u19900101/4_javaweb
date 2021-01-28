@@ -43,11 +43,11 @@
 						<td colspan="2">操作</td>
 					</tr>		
 					<tr>
-						<td><input name="name" type="text" value="${book.name}"/></td>
-						<td><input name="price" type="text" value="${book.price}"/></td>
-						<td><input name="author" type="text" value="${book.author}"/></td>
-						<td><input name="sales" type="text" value="${book.sales}"/></td>
-						<td><input name="stock" type="text" value="${book.stock}"/></td>
+						<td><input name="name" type="text" value="${empty requestScope.book?"笑傲江湖":book.name}"/></td>
+						<td><input name="price" type="text" value="${empty requestScope.book?"888.88":book.price}"/></td>
+						<td><input name="author" type="text" value="${empty requestScope.book?"金庸":book.author}"/></td>
+						<td><input name="sales" type="text" value="${empty requestScope.book?"9999":book.sales}"/></td>
+						<td><input name="stock" type="text" value="${empty requestScope.book?"9999":book.stock}"/></td>
 						<td><input type="submit" value="提交"/></td>
 					</tr>	
 				</table>

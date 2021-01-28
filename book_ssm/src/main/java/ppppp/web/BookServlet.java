@@ -65,14 +65,12 @@ public class BookServlet{
         return "redirect:/manage/bookServlet/page?pageNo=10000";
     }
 
-    public void delete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.DELETE)
+    public String delete(Integer id,Integer pageNum){
         System.out.println("come into delete ...");
-        String id = req.getParameter("id");
-        int i = bookService.deleteBookById(Integer.parseInt(id));
+        int i = bookService.deleteBookById(id);
         System.out.println("delete " + i);
-        // request.getContextPath()可以返回当前页面所在的应用的名字;
-        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
-        res.sendRedirect(req.getContextPath()+"/manage/bookServlet?action=page&pageNo="+pageNo);
+        return "redirect:/manage/bookServlet/page?pageNo="+pageNum;
     }
 
     @RequestMapping(method = RequestMethod.PUT)
