@@ -28,8 +28,8 @@
 		</div>
 		
 		<div id="main">
-			<form action="manage/bookServlet" method="get">
-				<input type="hidden" value="${empty requestScope.book?"add":"update"}" name="action">
+			<form action="manage/bookServlet" method="post">
+				<input type="hidden" name="_method" value="${empty requestScope.book?"":"put"}"/>
 				<input type="hidden" value="${requestScope.book.id}" name="id">
 				<%-- 之所以不能使用request中的page获取页码数的原因，经过点击修改的链接后，已经不是从list中转发的同一个request--%>
 				<input type="hidden" value="${param.pageNo}" name="pageNo">

@@ -51,11 +51,11 @@
 					<td>${book.author}</td>
 					<td>${book.sales}</td>
 					<td>${book.stock}</td>
-					<td><a href="manage/bookServlet/getBook?id=${book.id}&pageNo=${requestScope.page.pageNo}">修改</a></td>
+					<td><a href="manage/bookServlet?id=${book.id}&pageNo=${info.pageNum}">修改</a></td>
 					<td><a class="deleteClass" href="manage/bookServlet?action=delete&id=${book.id}&pageNo=${requestScope.page.pageNo}">删除</a></td>
 				</tr>
 			</c:forEach>
-				<td><a href="pages/manage/book_edit.jsp?pageNo=${requestScope.page.pageNo}">添加图书</a></td>
+				<td><a href="pages/manage/book_edit.jsp">添加图书</a></td>
 			</tr>
 		</table>
 		<%--静态包含分页条--%>

@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ppppp.g_dao.BookMapper;
 import ppppp.pojo.Book;
 import ppppp.pojo.BookExample;
 import ppppp.pojo.Page;
 import ppppp.service.impl.BookServiceImpl;
-import ppppp.utils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,14 +34,11 @@ public class BookServlet{
     BookMapper bookMapper;
     @RequestMapping("/page")
     public String page(@RequestParam(value = "pageNo",defaultValue = "1") Integer pageNum, Model model) {
-
         PageHelper.startPage(pageNum, 5);
-
         //紧跟着的第一条查询语句才有用  后面的无分页功能
         List<Book> books = bookMapper.selectByExample(new BookExample());
         //传入要连续显示多少页
         PageInfo<Book> info = new PageInfo<>(books, 5);
-
         System.out.println("当前页码：" + info.getPageNum());//  5
         System.out.println("总记录数：" + info.getTotal());// 1010
         System.out.println("每页的记录数：" + info.getPageSize());// 1
@@ -55,22 +52,20 @@ public class BookServlet{
 
     }
 
-    @RequestMapping("/getBook")
-    protected void add(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.POST)
+    public String add(Book book,Model model){
         System.out.println("come into add ...");
-        Book book = WebUtils.copyBean(req.getParameterMap(), new Book());
+
+        if(book.getImgPath()==null){
+            book.setImgPath("static/img/default.jpg");
+        }
         int i = bookService.addBook(book);
         System.out.println("added book Num:" + i);
-        //此处要用 重定向 不然 在提交页面刷新会再次调用 add 方法数据的二次提交
-        // req.getRequestDispatcher("/manage/bookServlet?action=list").forward(req,res);
-        // 默认地址为端口号
-
-        // request.getContextPath()可以返回当前页面所在的应用的名字;
-        Page<Book> page = bookService.getPageList(1);
-        res.sendRedirect(req.getContextPath()+"/manage/bookServlet?action=page&pageNo="+page.getPageTotal());
+        //插件具有自动纠错功能 免得写页面数，这样就直接查询最后一页了
+        return "redirect:/manage/bookServlet/page?pageNo=10000";
     }
 
-    protected void delete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void delete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("come into delete ...");
         String id = req.getParameter("id");
         int i = bookService.deleteBookById(Integer.parseInt(id));
@@ -80,27 +75,27 @@ public class BookServlet{
         res.sendRedirect(req.getContextPath()+"/manage/bookServlet?action=page&pageNo="+pageNo);
     }
 
-
-    protected void update(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.PUT)
+    public String update(Book book,
+                          @RequestParam(value = "pageNo",defaultValue = "1") Integer pageNo){
         System.out.println("come into update ...");
-        Book book = WebUtils.copyBean(req.getParameterMap(), new Book());
         int i = bookService.updateBookById(book);
         System.out.println("update " + i);
         // request.getContextPath()可以返回当前页面所在的应用的名字;
-        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
-        res.sendRedirect(req.getContextPath()+"/manage/bookServlet?action=page&pageNo="+pageNo);
+        return "redirect:/manage/bookServlet/page?pageNo="+pageNo;
     }
 
     // 为了传参使用
-    protected void getBook(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.GET)
+    public String getBook(@RequestParam(value = "pageNo",defaultValue = "1") Integer pageNo,
+                           @RequestParam(value = "id",defaultValue = "1") Integer id,
+                             HttpServletRequest req){
         System.out.println("come into getBook ...");
-        String id = req.getParameter("id");
 
-        Book book = bookService.queryBookById(Integer.parseInt(id));
-        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        Book book = bookService.queryBookById(id);
         System.out.println(book);
         req.setAttribute("book", book);
-        req.getRequestDispatcher("/pages/manage/book_edit.jsp?pageNo="+pageNo).forward(req, res);
+        return "forward:/pages/manage/book_edit.jsp?pageNo="+pageNo;
     }
 
 

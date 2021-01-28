@@ -7,6 +7,19 @@ public class Book {
 
     private String name;
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", price=" + price +
+                ", sales=" + sales +
+                ", stock=" + stock +
+                ", imgPath='" + imgPath + '\'' +
+                '}';
+    }
+
     private String author;
 
     private BigDecimal price;
