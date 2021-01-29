@@ -12,6 +12,7 @@ import ppppp.pojo.Book;
 import ppppp.pojo.BookExample;
 import ppppp.service.impl.BookServiceImpl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -32,32 +33,33 @@ public class ClientServlet{
         PageInfo<Book> info = new PageInfo<>(books, 5);
         model.addAttribute("info", info);
 
-        // 带上当前的权限 路径  以便分页 区分跳转前缀
-        model.addAttribute("controllerName", "client");
+        // 带上当前的 路径  以便分页 区分跳转前缀
+        model.addAttribute("url", "client/bookServlet/page?");
         System.out.println(info);
         return "forward:/pages/client/index.jsp";
     }
 
 
-   /* public void queryByPrice(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        System.out.println("come into queryByPrice...");
-        int min = WebUtils.parseInt(req.getParameter("min"), 0);
-        int max = WebUtils.parseInt(req.getParameter("max"), 100000);
-        int pageNo = WebUtils.parseInt(req.getParameter("pageNo"), 1);
+    @RequestMapping("/queryByPrice")
+    public String queryByPrice(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                               Model model,
+                               @RequestParam(value = "min", defaultValue = "0") BigDecimal min,
+                               @RequestParam(value = "max", defaultValue = "999999")BigDecimal max) {
+        PageHelper.startPage(pageNum, 4);
+        //紧跟着的第一条查询语句才有用  后面的无分页功能
+        BookExample bookExample = new BookExample();
+        BookExample.Criteria criteria = bookExample.createCriteria();
+        criteria.andPriceBetween(min, max);
+        List<Book> books = bookMapper.selectByExample(bookExample);
+        //传入要连续显示多少页
+        PageInfo<Book> info = new PageInfo<>(books, 5);
+        // 将查询条件带入
+        model.addAttribute("url", "client/bookServlet/queryByPrice?min="+min+"&max="+max+"&");
+        model.addAttribute("info", info);
 
-        Page<Book> page = bookService.getPageListByPrice(pageNo,max,min);
-        page.setUrl("client/bookServlet?action=queryByPrice&min="+min+"&max="+max);
-        req.setAttribute("page", page);
-        // 用于回显 查询的 价格数据
-        *//*if(!"".equalsIgnoreCase(req.getParameter("max"))){
-            req.setAttribute("max", max);
-        }
-        if(!"".equalsIgnoreCase(req.getParameter("min"))){
-            req.setAttribute("min", min);
-        }*//*
-        req.setAttribute("min", req.getParameter("min"));
-        req.setAttribute("max", req.getParameter("max"));
-        req.getRequestDispatcher("/pages/client/index.jsp").forward(req,res);
+        // 用于在页面显示数据
+        model.addAttribute("min", min);
+        model.addAttribute("max", max);
+        return "forward:/pages/client/index.jsp";
     }
-*/
 }

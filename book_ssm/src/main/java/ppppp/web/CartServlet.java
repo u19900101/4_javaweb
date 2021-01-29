@@ -88,9 +88,7 @@ public class CartServlet{
         map.put("lastAddBook",book.getName());
         // 判断是否是第一次加入购物车
         map.put("createCart", flag);
-        String s = new Gson().toJson(map);
-        return s;
-        // res.getWriter().write(new Gson().toJson(map));
+        return new Gson().toJson(map);
 
     }
 }

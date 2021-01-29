@@ -84,13 +84,13 @@ public class UserServlet{
 
     }
   */
-    /*@RequestMapping("/logout")
-    private void logout(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    @RequestMapping("/logout")
+    private String logout(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.getSession().removeAttribute("user");
         //还要清空购物车session
         req.getSession().removeAttribute("cart");
-        res.sendRedirect("index.jsp");
-    }*/
+        return "forward:/pages/client/index.jsp";
+    }
     @RequestMapping("/login")
     private String login(HttpServletRequest req, User user) throws ServletException, IOException {
         System.out.println("come into login");

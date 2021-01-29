@@ -44,12 +44,15 @@ public class BookServlet {
         System.out.println("连续显示的页码："); //3 4 5 6 7
 
         model.addAttribute("info", info);
+
         // 带上当前的权限 路径  以便分页 区分跳转前缀
-        model.addAttribute("controllerName", "manage");
+        model.addAttribute("url", "manage/bookServlet/page?");
         System.out.println(info);
         return "forward:/pages/manage/book_manage.jsp";
 
     }
+
+
 
     @RequestMapping(method = RequestMethod.POST)
     public String add(Book book, Model model) {

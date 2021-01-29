@@ -11,11 +11,33 @@ public class OrderItem {
 
     private BigDecimal price;
 
+    public BigDecimal getTotalprice() {
+        return totalprice;
+    }
+
     private BigDecimal totalprice;
 
     private String orderId;
 
-    public OrderItem(String name, Integer count, BigDecimal price, String id) {
+    public OrderItem(String name, Integer count, BigDecimal price, String orderId) {
+        this.name = name;
+        this.count = count;
+        this.price = price;
+        this.orderId = orderId;
+        this.totalprice = getTotalPrice();
+
+    }
+
+    public OrderItem(Integer id, String name, Integer count, BigDecimal price, BigDecimal totalprice, String orderId) {
+        this.id = id;
+        this.name = name;
+        this.count = count;
+        this.price = price;
+        this.totalprice = getTotalPrice();
+        this.orderId = orderId;
+    }
+
+    public OrderItem() {
     }
 
     public Integer getId() {
@@ -50,8 +72,8 @@ public class OrderItem {
         this.price = price;
     }
 
-    public BigDecimal getTotalprice() {
-        return totalprice;
+    public BigDecimal getTotalPrice() {
+        return price.multiply(new BigDecimal(count));
     }
 
     public void setTotalprice(BigDecimal totalprice) {

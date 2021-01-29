@@ -7,6 +7,7 @@
     <result column="count" jdbcType="INTEGER" property="count" />
     <result column="totalPrice" jdbcType="DECIMAL" property="totalprice" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, count, totalPrice, user_id
+    id, create_time, count, totalPrice, user_id,status
   </sql>
   <select id="selectByExample" parameterType="ppppp.pojo.OrderExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,9 @@
   </delete>
   <insert id="insert" parameterType="ppppp.pojo.Order">
     insert into t_order (id, create_time, count, 
-      totalPrice, user_id)
+      totalPrice, user_id,status)
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
-      #{totalprice,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER})
+      #{totalprice,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="ppppp.pojo.Order">
     insert into t_order
@@ -123,6 +124,9 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +143,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +173,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.status != null">
+        user_id = #{record.status,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +187,8 @@
       create_time = #{record.createTime,jdbcType=VARCHAR},
       count = #{record.count,jdbcType=INTEGER},
       totalPrice = #{record.totalprice,jdbcType=DECIMAL},
-      user_id = #{record.userId,jdbcType=INTEGER}
+      user_id = #{record.userId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +208,9 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -205,7 +219,8 @@
     set create_time = #{createTime,jdbcType=VARCHAR},
       count = #{count,jdbcType=INTEGER},
       totalPrice = #{totalprice,jdbcType=DECIMAL},
-      user_id = #{userId,jdbcType=INTEGER}
+      user_id = #{userId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

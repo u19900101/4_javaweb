@@ -23,13 +23,13 @@
             <a href="pages/user/login.jsp">登录</a> |
             <a href="pages/user/register.jsp">注册</a> &nbsp;&nbsp;
         </c:if>
-            <a href="pages/order/order.jsp">我的订单</a>
+            <a href="client/orderServlet/page">我的订单</a>
             <a href="pages/cart/cart.jsp">购物车</a>
 
         <%-- 用户已登录 --%>
             <c:if test="${not empty sessionScope.user}">
                 <a href="index.jsp">返回</a>
-                <a href="userServlet?action=logout">注销</a>&nbsp;&nbsp;
+                <a href="client/userServlet/logout">注销</a>&nbsp;&nbsp;
                 <span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
             <a href="pages/manage/manage.jsp">后台管理</a>
         </c:if>
@@ -40,12 +40,17 @@
 <div id="main">
     <div id="book">
         <div class="book_cond">
-            <form action="client/bookServlet" method="post">
-                价格：<input id="min" type="text" name="min" value="${requestScope.min}"> 元 -
-                <input id="max" type="text" name="max" value="${requestScope.max}"> 元
-                <input type="hidden" value="queryByPrice" name="action">
+            <form action="client/bookServlet/queryByPrice" method="post">
+                价格：
+                <input id="min" type="text" name="min" value="${min}"> 元 -
+                <input id="max" type="text" name="max" value="${max}"> 元
                 <input type="submit" value="查询" id = "searchPriceBtn"/>
+                <c:if test="${not empty min or not empty max}">
+                    <a href="client/bookServlet/page">清空查询条件</a>
+                </c:if>
+
             </form>
+
         </div>
         <script type="text/javascript">
             /* 处理刷新后信息消失的情况 */

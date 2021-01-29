@@ -12,8 +12,23 @@ public class Order {
     private BigDecimal totalprice;
 
     private Integer userId;
+    public Status status;
 
-    public Order(String id, String toString, Integer totalCount, BigDecimal totalPrice, Integer id1, Status checkedreceived) {
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Order(String id, String createTime, Integer count, BigDecimal totalprice, Integer userId, Status status) {
+        this.id = id;
+        this.createTime = createTime;
+        this.count = count;
+        this.totalprice = totalprice;
+        this.userId = userId;
+        this.status = status;
     }
 
     public String getId() {

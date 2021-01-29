@@ -28,17 +28,29 @@
 <div id="main">
 	<table  align="center"  width="80%" border="2" cellspacing="20" cellpadding="10">
 		<tr >
-			<td colspan="2">日期</td>
-			<td>金额</td>
-			<td>状态</td>
-			<td>详情</td>
+			<td colspan="2">订单号</td>
+			<td>名称</td>
+			<td>数量</td>
+			<td>单价</td>
+			<td>总价</td>
 		</tr>
-		<c:forEach items="${info.list}" var="order">
+		<c:forEach items="${info.list}" var="orderItem">
 			<tr border="2" bgcolor="#4bfca2">
-				<td colspan="2">${order.createTime}</td>
-				<td>${order.totalprice}</td>
-				<td>${order.status}</td>
-				<td><a href="client/orderServlet/getOrderItem?orderId=${order.id}">查看详情</a></td>
+				<%--
+    private String ;
+
+    private Integer ;
+
+    private BigDecimal ;
+
+    private BigDecimal ;
+
+    private String ;--%>
+				<td colspan="2">${orderItem.orderId}</td>
+				<td>${orderItem.name}</td>
+				<td>${orderItem.count}</td>
+				<td>${orderItem.price}</td>
+				<td>${orderItem.totalprice}</td>
 			</tr>
 		</c:forEach>
 	</table>

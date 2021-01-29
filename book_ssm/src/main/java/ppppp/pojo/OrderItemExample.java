@@ -425,7 +425,7 @@ public class OrderItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdEqualTo(String value) {
+        public Criteria andOrderIdEqualTo(Integer value) {
             addCriterion("order_id =", value, "orderId");
             return (Criteria) this;
         }
