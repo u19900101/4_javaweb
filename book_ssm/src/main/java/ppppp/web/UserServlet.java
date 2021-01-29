@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ppppp.g_dao.CartMapper;
+import ppppp.pojo.Cart;
 import ppppp.pojo.User;
 import ppppp.service.UserService;
 
@@ -91,6 +93,9 @@ public class UserServlet{
         req.getSession().removeAttribute("cart");
         return "forward:/pages/client/index.jsp";
     }
+
+    @Autowired
+    CartMapper cartMapper;
     @RequestMapping("/login")
     private String login(HttpServletRequest req, User user) throws ServletException, IOException {
         System.out.println("come into login");
@@ -100,6 +105,14 @@ public class UserServlet{
             req.setAttribute("msg","login succeed");
             req.getSession().setAttribute("user",login);
             req.getSession().setMaxInactiveInterval(60*60*24*7);
+
+            Integer cartId = login.getId();
+            Cart cart = cartMapper.selectByPrimaryKey(cartId);
+            // 购物车中有货的话 一进入就能看到
+            if(cart!=null){
+                req.getSession().setAttribute("cart",cart);
+            }
+
             return "forward:/pages/user/login_success.jsp";
         }else {
             // failed

@@ -24,7 +24,7 @@
             <a href="pages/user/register.jsp">注册</a> &nbsp;&nbsp;
         </c:if>
             <a href="client/orderServlet/page">我的订单</a>
-            <a href="pages/cart/cart.jsp">购物车</a>
+            <a href="client/cartServlet/page">购物车</a>
 
         <%-- 用户已登录 --%>
             <c:if test="${not empty sessionScope.user}">
@@ -96,8 +96,9 @@
                         // 使用ajax修改
                         $.post(
                             "http://localhost:8080/book_ssm/client/cartServlet",
-                            "id="+bookId,
+                            "bookId="+bookId,
                             function (data) {
+                                // alert(data.totalCount);
                                 $("#totalCount").text(data.totalCount);
                                 $("#lastAddBook").text(data.lastAddBook);
                                 // 首次添加商品则进行刷新操作
@@ -107,26 +108,9 @@
                                 },
                             "json"
                         );
-                        /*$.getJSON("client/cartServlet","action=addItem&id="+bookId,function (data) {
-                            $("#totalCount").text(data.totalCount);
-                            $("#lastAddBook").text(data.lastAddBook);
-                            // 首次添加商品则进行刷新操作
-                            if(data.createCart){
-                                location.href = "client/bookServlet?action=page";
-                            }
-                        });*/
                     }else {
                         location.href = "pages/user/login.jsp";
                     }
-                    /**
-                     * 在事件响应的function函数 中，有一个this对象，这个this对象，是当前正在响应事件的dom对象
-                     * @type {jQuery}
-                     */
-                    // alert(bookId);
-                    // location.href = "client/cartServlet?action=addItem&id="+bookId;
-                        /*此处不能使用属性进行取值，因为循环后相同属性的很多*/
-                        // location.href = "client/cartServlet?action=addItem"+$("#cartBtn").val();
-
                 });
             });
         </script>

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ppppp.g_dao.CartMapper;
+import ppppp.g_dao.CartitemMapper;
 import ppppp.g_dao.OrderItemMapper;
 import ppppp.g_dao.OrderMapper;
 import ppppp.pojo.*;
@@ -15,7 +17,6 @@ import ppppp.service.impl.OrderServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static ppppp.pojo.Status.CHECKEDRECEIVED;
 
@@ -30,6 +31,10 @@ public class OrderServlet{
     OrderServiceImpl orderService;
     @Autowired
     OrderMapper orderMapper;
+    @Autowired
+    CartMapper cartMapper;
+    @Autowired
+    CartitemMapper cartitemMapper;
     @Autowired
     OrderItemMapper orderItemMapper;
     @Autowired
@@ -46,20 +51,22 @@ public class OrderServlet{
     @RequestMapping("/createOrder")
     protected String createOrder(HttpServletRequest req){
         // 1.将购物车里的东西转化为orderItem 以及 order
-        Cart cart = (Cart)req.getSession().getAttribute("cart");
         User user = (User)req.getSession().getAttribute("user");
-
         if(user == null){
             return "redirect:/pages/user/login.jsp";
         }
+        Cart cart = cartMapper.selectByPrimaryKey(user.getId());
         String id = user.getUsername()+"_"+gId();
         req.getSession().setAttribute("orderId", id);
-        Order order = new Order(id, LocalDateTime.now().toString(),cart.getTotalCount(), cart.getTotalPrice(), user.getId(), CHECKEDRECEIVED);
+        Order order = new Order(id, LocalDateTime.now().toString(),cart.getCount(), cart.getTotalprice(), user.getId(), CHECKEDRECEIVED);
         // 2.创建订单
         orderService.createOrder(order);
         // 2.创建订单详情
-        Map<Integer, CartItem> items = cart.getItems();
-        for (CartItem cartItem:items.values()) {
+        CartitemExample cartitemExample = new CartitemExample();
+        CartitemExample.Criteria criteria = cartitemExample.createCriteria();
+        criteria.andCartidEqualTo(cart.getCartid());
+        List<Cartitem> cartitems = cartitemMapper.selectByExample(cartitemExample);
+        for (Cartitem cartItem:cartitems) {
             OrderItem orderItem = new OrderItem(cartItem.getName(), cartItem.getCount(),
                     cartItem.getPrice(),order.getId());
             orderService.createOrderItem(orderItem);

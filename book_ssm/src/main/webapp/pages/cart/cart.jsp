@@ -44,7 +44,7 @@
 	</script>
 </head>
 <body>
-	
+
 	<div id="header">
 			<img class="logo_img" alt="" src="static/img/logo.gif" >
 			<span class="wel_word">购物车</span>
@@ -52,9 +52,9 @@
 		<%--静态包含，登录 成功之后的菜单 --%>
 		<%@ include file="/pages/common/login_success_menu.jsp"%>
 	</div>
-	
+
 	<div id="main">
-	
+
 		<table>
 			<tr>
 				<td>商品名称</td>
@@ -62,40 +62,40 @@
 				<td>单价</td>
 				<td>金额</td>
 				<td>操作</td>
-			</tr>		
+			</tr>
 
-			<c:if test="${empty sessionScope.cart.items}">
+			<c:if test="${info.size<=0}">
 			<tr>
 				<td colspan="5"><a href="index.jsp"> 老板，当前购物车为空</a></td>
 			</tr>
 			</c:if>
 
-			<c:if test="${not empty sessionScope.cart.items}">
-				<c:forEach items="${sessionScope.cart.items}" var="item">
+			<c:if test="${info.size >0}">
+				<c:forEach items="${info.list}" var="item">
 					<tr>
-						<td>${item.value.name}</td>
+						<td>${item.name}</td>
 						<td><input class="updateCount" style="width: 80px;"
-								   bookId="${item.value.id}"
-								   type="text" value="${item.value.count}">
+								   bookId="${item.id}"
+								   type="text" value="${item.count}">
 						</td>
-						<td>${item.value.price}</td>
-						<td>${item.value.totalPrice}</td>
-						<td><a class="deleteItem" href="client/cartServlet/deleteItem?id=${item.value.id}">删除</a></td>
+						<td>${item.price}</td>
+						<td>${item.totalprice}</td>
+						<td><a class="deleteItem" href="client/cartServlet/deleteItem?id=${item.id}">删除</a></td>
 					</tr>
 				</c:forEach>
 			</c:if>
 		</table>
-
-		<c:if test="${not empty sessionScope.cart.items}">
+		<%@include file="/pages/common/page_nav.jsp"%><br/><br/>
+		<c:if test="${info.size >0}">
 			<div class="cart_info">
-				<span class="cart_span">购物车中共有<span class="b_count">${sessionScope.cart.totalCount}</span>件商品</span>
-				<span class="cart_span">总金额<span class="b_price">${sessionScope.cart.totalPrice}</span>元</span>
+				<span class="cart_span">购物车中共有<span class="b_count">${totalCount}</span>件商品</span>
+				<span class="cart_span">总金额<span class="b_price">${totalPrice}</span>元</span>
 				<span class="cart_span"><a id = "clearCart" href="client/cartServlet/clearCart">清空购物车</a></span>
 				<span class="cart_span"><a href="client/orderServlet/createOrder">去结账</a></span>
 			</div>
 		</c:if>
-	</div>
 
+	</div>
 
 	<%--静态包含页脚内容--%>
 	<%@include file="/pages/common/footer.jsp"%>

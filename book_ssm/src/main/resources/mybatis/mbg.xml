@@ -45,10 +45,12 @@
     </javaClientGenerator>
 
 	<!-- 指定要逆向分析哪些表：根据表要创建javaBean -->
-      <table tableName="t_book" domainObjectName="Book"></table>
-      <table tableName="t_order" domainObjectName="Order"></table>
-      <table tableName="t_orderitem" domainObjectName="OrderItem"></table>
-      <table tableName="t_user" domainObjectName="User"></table>
+      <!--<table tableName="t_book" domainObjectName="Book"></table>-->
+      <!--<table tableName="t_order" domainObjectName="Order"></table>-->
+      <!--<table tableName="t_orderitem" domainObjectName="OrderItem"></table>-->
+      <!--<table tableName="t_user" domainObjectName="User"></table>-->
+      <table tableName="t_cart" domainObjectName="Cart"></table>
+      <table tableName="t_cartitem" domainObjectName="Cartitem"></table>
   </context>
 
 </generatorConfiguration>
