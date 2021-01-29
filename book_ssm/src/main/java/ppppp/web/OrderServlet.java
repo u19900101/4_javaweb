@@ -87,7 +87,7 @@ public class OrderServlet{
         PageInfo<Order> info = new PageInfo<>(orderList, 5);
         req.setAttribute("info", info);
         // 带上当前的权限 路径  以便分页 区分跳转前缀
-        req.setAttribute("url", "client/orderServlet/page");
+        req.setAttribute("url", "client/orderServlet/page?");
         return "forward:/pages/order/order.jsp";
     }
 

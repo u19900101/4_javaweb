@@ -28,15 +28,26 @@
 <div id="main">
 	<table  align="center"  width="80%" border="2" cellspacing="20" cellpadding="10">
 		<tr >
+			<td>序号</td>
 			<td colspan="2">日期</td>
 			<td>金额</td>
+			<td>数量</td>
+			<td>用户ID</td>
 			<td>状态</td>
 			<td>详情</td>
 		</tr>
+
+		<c:set var="index" value="${(info.pageNum-1)*4}" />
+
 		<c:forEach items="${info.list}" var="order">
 			<tr border="2" bgcolor="#4bfca2">
+				<%--序号--%>
+				<c:set var="index" value="${index+1}" />
+				<td>${index}</td>
 				<td colspan="2">${order.createTime}</td>
 				<td>${order.totalprice}</td>
+				<td>${order.count}</td>
+				<td>${order.userId}</td>
 				<td>${order.status}</td>
 				<td><a href="client/orderServlet/getOrderItem?orderId=${order.id}">查看详情</a></td>
 			</tr>

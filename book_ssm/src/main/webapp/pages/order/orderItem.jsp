@@ -19,33 +19,29 @@
 	
 	<div id="header">
 			<img class="logo_img" alt="" src="../../static/img/logo.gif" >
-			<span class="wel_word">我的订单</span>
+			<span class="wel_word">订单详情</span>
 
 		<%--静态包含，登录 成功之后的菜单 --%>
 		<%@ include file="/pages/common/login_success_menu.jsp"%>
 	</div>
-	
+
 <div id="main">
 	<table  align="center"  width="80%" border="2" cellspacing="20" cellpadding="10">
 		<tr >
+			<td>序号</td>
 			<td colspan="2">订单号</td>
 			<td>名称</td>
 			<td>数量</td>
 			<td>单价</td>
 			<td>总价</td>
 		</tr>
+		<c:set var="index" value="${(info.pageNum-1)*4}" />
+
 		<c:forEach items="${info.list}" var="orderItem">
 			<tr border="2" bgcolor="#4bfca2">
-				<%--
-    private String ;
-
-    private Integer ;
-
-    private BigDecimal ;
-
-    private BigDecimal ;
-
-    private String ;--%>
+					<%--序号--%>
+				<c:set var="index" value="${index+1}" />
+				<td>${index}</td>
 				<td colspan="2">${orderItem.orderId}</td>
 				<td>${orderItem.name}</td>
 				<td>${orderItem.count}</td>
