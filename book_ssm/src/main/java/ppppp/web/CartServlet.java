@@ -88,16 +88,19 @@ public class CartServlet{
 
     }
     @RequestMapping("/clearCart")
-    protected void clearCart(HttpServletRequest req, HttpServletResponse res,Integer cartid) throws ServletException, IOException {
+    protected void clearCart(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         //1.先清空 cartItem中的项
+        Integer cartid = ((User)req.getSession().getAttribute("user")).getId();
         CartitemExample cartitemExample = new CartitemExample();
         CartitemExample.Criteria criteria = cartitemExample.createCriteria();
         criteria.andCartidEqualTo(cartid);
         int deleteByExample = cartitemMapper.deleteByExample(cartitemExample);
-        System.out.println("删除了 cartItem "+deleteByExample);
-        //2.再删除 cart
-        int i = cartMapper.deleteByPrimaryKey(cartid);
-        System.out.println("删除了 cart"+i);
+
+        Cart cart = new Cart(cartid,0,new BigDecimal(0));
+        cartMapper.updateByPrimaryKey(cart);
+        req.getSession().setAttribute("totalCount",0);
+        req.getSession().removeAttribute("lastAddBook");
+
         res.sendRedirect(req.getHeader("Referer"));
     }
 

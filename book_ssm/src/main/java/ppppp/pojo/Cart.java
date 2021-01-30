@@ -16,6 +16,13 @@ public class Cart {
         this.userid = cartid;
     }
 
+    public Cart(Integer cartid,Integer count, BigDecimal totalprice) {
+        this.cartid = cartid;
+        this.count = count;
+        this.totalprice = totalprice;
+        this.userid = cartid;
+    }
+
     public Cart() {
     }
 
