@@ -2,6 +2,7 @@ package ppppp.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ppppp.dao.impl.UserDaoImpl;
 import ppppp.pojo.User;
 import ppppp.service.UserService;
@@ -11,6 +12,7 @@ import ppppp.service.UserService;
  * @create 2020-12-31 19:57
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     UserDaoImpl userDao;

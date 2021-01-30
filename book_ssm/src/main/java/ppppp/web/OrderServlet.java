@@ -11,8 +11,8 @@ import ppppp.g_dao.CartitemMapper;
 import ppppp.g_dao.OrderItemMapper;
 import ppppp.g_dao.OrderMapper;
 import ppppp.pojo.*;
-import ppppp.service.impl.BookServiceImpl;
-import ppppp.service.impl.OrderServiceImpl;
+import ppppp.service.BookService;
+import ppppp.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -29,7 +29,7 @@ import static ppppp.pojo.Status.CHECKEDRECEIVED;
 @RequestMapping("/client/orderServlet")
 public class OrderServlet{
     @Autowired
-    OrderServiceImpl orderService;
+    OrderService orderService;
     @Autowired
     OrderMapper orderMapper;
     @Autowired
@@ -39,7 +39,7 @@ public class OrderServlet{
     @Autowired
     OrderItemMapper orderItemMapper;
     @Autowired
-    BookServiceImpl bookService;
+    BookService bookService;
 
 
     public String gId(){

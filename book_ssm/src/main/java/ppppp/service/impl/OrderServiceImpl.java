@@ -2,6 +2,7 @@ package ppppp.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ppppp.dao.impl.OrderDaoImpl;
 import ppppp.pojo.Order;
 import ppppp.pojo.OrderItem;
@@ -12,6 +13,7 @@ import ppppp.service.OrderService;
  * @create 2021-01-08 15:05
  */
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderDaoImpl orderDao;

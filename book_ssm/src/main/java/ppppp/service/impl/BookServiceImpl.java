@@ -2,6 +2,7 @@ package ppppp.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ppppp.dao.impl.BookDaoImpl;
 import ppppp.pojo.Book;
 import ppppp.pojo.Page;
@@ -16,6 +17,7 @@ import static ppppp.pojo.Page.PAGE_SIZE;
  * @create 2021-01-04 11:19
  */
 @Service
+@Transactional
 public class BookServiceImpl implements BookService {
     @Autowired
     BookDaoImpl bookDao;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ppppp.g_dao.BookMapper;
 import ppppp.pojo.Book;
 import ppppp.pojo.BookExample;
-import ppppp.service.impl.BookServiceImpl;
+import ppppp.service.BookService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/client/bookServlet")
 public class ClientServlet{
     @Autowired
-    BookServiceImpl bookService;
+    BookService bookService;
     @Autowired
     BookMapper bookMapper;
     @RequestMapping("/page")

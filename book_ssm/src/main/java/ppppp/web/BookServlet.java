@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ppppp.g_dao.BookMapper;
 import ppppp.pojo.Book;
 import ppppp.pojo.BookExample;
-import ppppp.service.impl.BookServiceImpl;
+import ppppp.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/manage/bookServlet")
 public class BookServlet {
     @Autowired
-    BookServiceImpl bookService;
+    BookService bookService;
     @Autowired
     BookMapper bookMapper;
 
