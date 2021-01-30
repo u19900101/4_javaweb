@@ -5,7 +5,11 @@ import org.springframework.stereotype.Repository;
 import ppppp.g_dao.OrderItemMapper;
 import ppppp.g_dao.OrderMapper;
 import ppppp.pojo.Order;
+import ppppp.pojo.OrderExample;
 import ppppp.pojo.OrderItem;
+import ppppp.pojo.OrderItemExample;
+
+import java.util.List;
 
 /**
  * @author lppppp
@@ -32,5 +36,13 @@ public class OrderDaoImpl{
         if(update>0){
             System.out.println("添加了订单Item");
         }
+    }
+
+    public List<Order> selectByOrderExample(OrderExample orderExample) {
+        return orderMapper.selectByExample(orderExample);
+    }
+
+    public List<OrderItem> selectByOrderItemExample(OrderItemExample orderItemExample) {
+        return orderitemMapper.selectByExample(orderItemExample);
     }
 }

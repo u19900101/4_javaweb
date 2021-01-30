@@ -102,20 +102,14 @@ public class CartServlet{
     }
 
     @RequestMapping("/deleteItem")
+    // @Transactional  扫不到 起不到效果  因为 上面加了controller
     protected void deleteItem(HttpServletRequest req, HttpServletResponse res,Integer cartItemid) throws ServletException, IOException {
         System.out.println("come into deleteItem");
-        Cartitem cartitem = cartService.selectCartItemByPrimaryKey(cartItemid);
-
-        //1.更新 cartItem
-        cartService.deleteCartItemByPrimaryKey(cartItemid);
-        //2.更新cart 中的count 和 total
         User user = (User) req.getSession().getAttribute("user");
-        Cart cart = cartService.selectCartByPrimaryKey(user.getId());
 
-        //3. 更新页面显示信息
-        cart.setCount(cart.getCount()-cartitem.getCount());
-        cart.setTotalprice(cart.getTotalprice().subtract(cartitem.getTotalprice()));
-        cartService.updateCartByPrimaryKey(cart);
+        // 将所有涉及到事务的操作都放在一起  不能放在视图层下 即分层的意义 棒棒哒
+        Cart cart = cartService.deleteItem(cartItemid,user);
+
         req.getSession().setAttribute("totalCount",cart.getCount());
         req.getSession().removeAttribute("lastAddBook");
 
@@ -129,7 +123,30 @@ public class CartServlet{
 
         User user = (User) req.getSession().getAttribute("user");
         Integer cartId = user.getId();
-        Cart cart = cartService.selectCartByPrimaryKey(cartId);
+
+        //1.将商品单项加入购物车 库存和销量不会变化
+        Book book = bookService.queryBookById(bookId);
+
+        HashMap<String,Object> mapInfo = cartService.addItem(cartId,book,req);
+
+
+        req.getSession().setAttribute("totalCount",mapInfo.get("count"));
+        req.getSession().setAttribute("lastAddBook",mapInfo.get("bookName"));
+
+
+        // 使用ajax进行 简化
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("totalCount", mapInfo.get("count"));
+        map.put("lastAddBook",book.getName());
+        // 判断是否是第一次加入购物车
+        map.put("createCart", mapInfo.get("flag"));
+        return new Gson().toJson(map);
+    }
+}
+
+/*
+*
+* Cart cart = cartService.selectCartByPrimaryKey(cartId);
         boolean flag = false;
         // 判断是否有购物车
         // 无购物车则创建
@@ -143,13 +160,12 @@ public class CartServlet{
         if(req.getSession().getAttribute("lastAddBook")==null){
             flag = true;
         }
-        //1.将商品单项加入购物车 库存和销量不会变化
-        Book book = bookService.queryBookById(bookId);
 
-        // 查看购物车中是否有该商品 若无 则添加  有 则将数量相加
+
+        // 查看购物车中是否有该商品 若无 则添加  有 则将数量相加  总价也要更新
         Cartitem cartitem = cartService.selectCartItemByPrimaryKey(bookId);
         if(cartitem!= null){
-            cartitem.setCount(cartitem.getCount()+1);
+            cartitem.setCount2(cartitem.getCount()+1);
             cartService.updateCartitemByPrimaryKey(cartitem);
         }else {
             cartitem = new Cartitem(bookId,book.getName(),Integer.parseInt("1"),
@@ -163,17 +179,4 @@ public class CartServlet{
         cart.setCount(cart.getCount()+1);
         cart.setTotalprice(cart.getTotalprice().add(book.getPrice()));
         cartService.updateCartByPrimaryKey(cart);
-
-        req.getSession().setAttribute("totalCount",cart.getCount());
-        req.getSession().setAttribute("lastAddBook",book.getName());
-
-
-        // 使用ajax进行 简化
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("totalCount", cart.getCount());
-        map.put("lastAddBook",book.getName());
-        // 判断是否是第一次加入购物车
-        map.put("createCart", flag);
-        return new Gson().toJson(map);
-    }
-}
+        */

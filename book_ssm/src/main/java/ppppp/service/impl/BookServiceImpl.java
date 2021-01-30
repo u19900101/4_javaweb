@@ -55,8 +55,4 @@ public class BookServiceImpl implements BookService {
     public List<Book> selectByExample(BookExample bookExample) {
         return bookDao.selectByExample(new BookExample());
     }
-
-    public int getCountByPrice(int min, int max) {
-        return bookDao.getCountByPrice(min,max);
-    }
 }

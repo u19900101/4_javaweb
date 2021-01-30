@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ppppp.dao.impl.OrderDaoImpl;
-import ppppp.g_dao.OrderItemMapper;
-import ppppp.g_dao.OrderMapper;
 import ppppp.pojo.Order;
 import ppppp.pojo.OrderExample;
 import ppppp.pojo.OrderItem;
@@ -23,10 +21,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderDaoImpl orderDao;
-    @Autowired
-    OrderMapper orderMapper;
-    @Autowired
-    OrderItemMapper orderItemMapper;
+
     @Override
     public void createOrder(Order order) {
         orderDao.createOrder(order);
@@ -39,11 +34,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> selectOrderByExample(OrderExample orderExample) {
-        return orderMapper.selectByExample(orderExample);
+        return orderDao.selectByOrderExample(orderExample);
     }
 
     @Override
     public List<OrderItem> selectOrderItemByExample(OrderItemExample orderItemExample) {
-        return orderItemMapper.selectByExample(orderItemExample);
+        return orderDao.selectByOrderItemExample(orderItemExample);
     }
 }

@@ -2,7 +2,6 @@ package ppppp.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ppppp.g_dao.UserMapper;
 import ppppp.pojo.User;
 import ppppp.pojo.UserExample;
@@ -14,7 +13,6 @@ import java.util.List;
  * @create 2020-12-31 19:28
  */
 @Repository
-@Transactional
 public class UserDaoImpl{
     @Autowired
     UserMapper userMapper;

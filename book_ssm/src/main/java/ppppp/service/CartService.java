@@ -1,9 +1,9 @@
 package ppppp.service;
 
-import ppppp.pojo.Cart;
-import ppppp.pojo.Cartitem;
-import ppppp.pojo.CartitemExample;
+import ppppp.pojo.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,4 +32,8 @@ public interface CartService {
     void clearCart(CartitemExample cartitemExample, Integer cartid);
 
     List<Cartitem> selectCartitemByExample(CartitemExample cartitemExample);
+
+    Cart deleteItem(Integer cartItemid, User user);
+
+    HashMap<String, Object> addItem(Integer cartId, Book book, HttpServletRequest req);
 }
