@@ -1,4 +1,4 @@
-package ppppp.g_dao;
+package ppppp.dao;
 
 import ppppp.pojo.User;
 

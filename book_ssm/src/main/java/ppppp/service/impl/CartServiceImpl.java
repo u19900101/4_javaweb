@@ -80,4 +80,9 @@ public class CartServiceImpl implements CartService {
         Cart cart = new Cart(cartid,0,new BigDecimal(0));
         updateCartByPrimaryKey(cart);
     }
+
+    @Override
+    public List<Cartitem> selectCartitemByExample(CartitemExample cartitemExample) {
+        return cartitemMapper.selectByExample(cartitemExample);
+    }
 }

@@ -1,4 +1,4 @@
-package ppppp.service;
+package ppppp.dao;
 
 import ppppp.pojo.Book;
 import ppppp.pojo.BookExample;
@@ -7,16 +7,17 @@ import java.util.List;
 
 /**
  * @author lppppp
- * @create 2021-01-04 11:18
+ * @create 2020-12-31 19:30
  */
-public interface BookService {
-
+public interface BookDao {
     int addBook(Book book);
     int updateBookById(Book book);
-    int deleteBookById(Integer id);
+    int deleteBook(Integer id);
     Book queryBookById(Integer id);
     List<Book> queryBooks();
     int getSingleValue();
+
+    int getCountByPrice(int min, int max);
 
     List<Book> selectByExample(BookExample bookExample);
 }

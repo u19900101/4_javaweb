@@ -30,4 +30,6 @@ public interface CartService {
     void insertCartitem(Cartitem cartitem);
 
     void clearCart(CartitemExample cartitemExample, Integer cartid);
+
+    List<Cartitem> selectCartitemByExample(CartitemExample cartitemExample);
 }

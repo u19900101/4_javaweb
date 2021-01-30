@@ -2,7 +2,6 @@ package ppppp.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ppppp.g_dao.OrderItemMapper;
 import ppppp.g_dao.OrderMapper;
 import ppppp.pojo.Order;
@@ -13,7 +12,6 @@ import ppppp.pojo.OrderItem;
  * @create 2021-01-08 15:15
  */
 @Repository
-@Transactional
 public class OrderDaoImpl{
     @Autowired
     OrderMapper orderMapper;

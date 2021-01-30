@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ppppp.g_dao.BookMapper;
 import ppppp.pojo.Book;
 import ppppp.pojo.BookExample;
 import ppppp.service.BookService;
@@ -25,15 +24,14 @@ import java.util.List;
 public class BookServlet {
     @Autowired
     BookService bookService;
-    @Autowired
-    BookMapper bookMapper;
 
     @RequestMapping("/page")
     public String page(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                        Model model) {
         PageHelper.startPage(pageNum, 5);
         //紧跟着的第一条查询语句才有用  后面的无分页功能
-        List<Book> books = bookMapper.selectByExample(new BookExample());
+        List<Book> books = bookService.selectByExample(new BookExample());
+
         //传入要连续显示多少页
         PageInfo<Book> info = new PageInfo<>(books, 5);
         System.out.println("当前页码：" + info.getPageNum());//  5

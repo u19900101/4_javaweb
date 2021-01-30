@@ -1,7 +1,11 @@
 package ppppp.service;
 
 import ppppp.pojo.Order;
+import ppppp.pojo.OrderExample;
 import ppppp.pojo.OrderItem;
+import ppppp.pojo.OrderItemExample;
+
+import java.util.List;
 
 /**
  * @author lppppp
@@ -12,4 +16,8 @@ public interface OrderService {
      void createOrder(Order order);
 
     void createOrderItem(OrderItem orderItem);
+
+    List<Order> selectOrderByExample(OrderExample orderExample);
+
+    List<OrderItem> selectOrderItemByExample(OrderItemExample orderItemExample);
 }

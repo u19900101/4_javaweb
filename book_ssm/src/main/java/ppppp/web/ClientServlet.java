@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ppppp.g_dao.BookMapper;
 import ppppp.pojo.Book;
 import ppppp.pojo.BookExample;
 import ppppp.service.BookService;
@@ -20,15 +19,13 @@ import java.util.List;
 public class ClientServlet{
     @Autowired
     BookService bookService;
-    @Autowired
-    BookMapper bookMapper;
     @RequestMapping("/page")
     public String page(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                        Model model){
         System.out.println("come into ClientServlet...");
         PageHelper.startPage(pageNum, 4);
         //紧跟着的第一条查询语句才有用  后面的无分页功能
-        List<Book> books = bookMapper.selectByExample(new BookExample());
+        List<Book> books = bookService.selectByExample(new BookExample());
         //传入要连续显示多少页
         PageInfo<Book> info = new PageInfo<>(books, 5);
         model.addAttribute("info", info);
@@ -50,7 +47,7 @@ public class ClientServlet{
         BookExample bookExample = new BookExample();
         BookExample.Criteria criteria = bookExample.createCriteria();
         criteria.andPriceBetween(min, max);
-        List<Book> books = bookMapper.selectByExample(bookExample);
+        List<Book> books = bookService.selectByExample(bookExample);
         //传入要连续显示多少页
         PageInfo<Book> info = new PageInfo<>(books, 5);
         // 将查询条件带入

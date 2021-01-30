@@ -19,12 +19,12 @@ public class ExceptionConfig {
         return view;
     }
 
-    //升级版 带回异常信息
+    /*//升级版 带回异常信息
     @ExceptionHandler(Exception.class)
     public ModelAndView e_handler(Exception e){
         ModelAndView view = new ModelAndView("forward:/pages/error/errorMath.jsp");
         view.addObject("msg",e);
         return view;
-    }
+    }*/
 
 }

@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ppppp.g_dao.CartMapper;
-import ppppp.g_dao.CartitemMapper;
-import ppppp.g_dao.OrderItemMapper;
-import ppppp.g_dao.OrderMapper;
 import ppppp.pojo.*;
 import ppppp.service.BookService;
+import ppppp.service.CartService;
 import ppppp.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,13 +28,7 @@ public class OrderServlet{
     @Autowired
     OrderService orderService;
     @Autowired
-    OrderMapper orderMapper;
-    @Autowired
-    CartMapper cartMapper;
-    @Autowired
-    CartitemMapper cartitemMapper;
-    @Autowired
-    OrderItemMapper orderItemMapper;
+    CartService cartService;
     @Autowired
     BookService bookService;
 
@@ -56,7 +47,7 @@ public class OrderServlet{
         if(user == null){
             return "redirect:/pages/user/login.jsp";
         }
-        Cart cart = cartMapper.selectByPrimaryKey(user.getId());
+        Cart cart = cartService.selectCartByPrimaryKey(user.getId());
         String id = user.getUsername()+"_"+gId();
         req.getSession().setAttribute("orderId", id);
         Order order = new Order(id, LocalDateTime.now().toString(),cart.getCount(), cart.getTotalprice(), user.getId(), CHECKEDRECEIVED);
@@ -66,7 +57,7 @@ public class OrderServlet{
         CartitemExample cartitemExample = new CartitemExample();
         CartitemExample.Criteria criteria = cartitemExample.createCriteria();
         criteria.andCartidEqualTo(cart.getCartid());
-        List<Cartitem> cartitems = cartitemMapper.selectByExample(cartitemExample);
+        List<Cartitem> cartitems = cartService.selectCartitemByExample(cartitemExample);
 
         // 加判断 是否 库存充足
         for (Cartitem cartItem:cartitems) {
@@ -81,10 +72,10 @@ public class OrderServlet{
         }
         // 3.类似清空了购物车车  修改 书籍的库存和销量 修改 购物车的信息
         //再清空 cartItem中的项
-        int deleteByExample = cartitemMapper.deleteByExample(cartitemExample);
+        int deleteByExample = cartService.deleteCartitemByExample(cartitemExample);
         cart.setCount(0);
         cart.setTotalprice(new BigDecimal(0));
-        cartMapper.updateByPrimaryKey(cart);
+        cartService.updateCartByPrimaryKey(cart);
         req.getSession().setAttribute("totalCount",0);
         req.getSession().removeAttribute("lastAddBook");
         return "redirect:/pages/cart/checkout.jsp";
@@ -99,7 +90,7 @@ public class OrderServlet{
         //传入要连续显示多少页
         OrderExample orderExample = new OrderExample();
         orderExample.setOrderByClause("create_time DESC");
-        List<Order> orderList = orderMapper.selectByExample(orderExample);
+        List<Order> orderList = orderService.selectOrderByExample(orderExample);
         PageInfo<Order> info = new PageInfo<>(orderList, 5);
         req.setAttribute("info", info);
         // 带上当前的权限 路径  以便分页 区分跳转前缀
@@ -118,7 +109,7 @@ public class OrderServlet{
         OrderItemExample.Criteria criteria = orderItemExample.createCriteria();
 
         criteria.andOrderIdLike(orderId);
-        List<OrderItem> orderItems = orderItemMapper.selectByExample(orderItemExample);
+        List<OrderItem> orderItems = orderService.selectOrderItemByExample(orderItemExample);
 
         PageInfo<OrderItem> info = new PageInfo<>(orderItems, 5);
         req.setAttribute("info", info);

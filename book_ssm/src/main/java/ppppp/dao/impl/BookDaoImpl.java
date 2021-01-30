@@ -1,13 +1,11 @@
 package ppppp.dao.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import ppppp.pojo.BookExample;
+import ppppp.dao.BookDao;
 import ppppp.g_dao.BookMapper;
 import ppppp.pojo.Book;
+import ppppp.pojo.BookExample;
 
 import java.util.List;
 
@@ -16,8 +14,7 @@ import java.util.List;
  * @create 2021-01-04 9:32
  */
 @Repository
-@Transactional
-public class BookDaoImpl{
+public class BookDaoImpl implements BookDao {
 
     @Autowired
     BookMapper bookMapper;
@@ -47,7 +44,6 @@ public class BookDaoImpl{
         return i;
 
     }
-
 
     public Book queryBookById(Integer id) {
         Book book = null;
@@ -79,29 +75,6 @@ public class BookDaoImpl{
         return (int)integer;
     }
 
-
-
-    public List<Book> getPageList(int begin, int size) {
-        List<Book> bookList =null;
-        try {
-            PageHelper.startPage(begin, size);
-
-            //紧跟着的第一条查询语句才有用  后面的无分页功能
-            List<Book> books = bookMapper.selectByExample(new BookExample());
-            //传入要连续显示多少页
-            PageInfo<Book> bookPageInfo = new PageInfo<>(books, 5);
-            for (Book book : books) {
-                System.out.println(book);
-            }
-            bookList = bookPageInfo.getList();
-        }catch (Exception e){
-            System.out.println(e);
-        }finally {
-            return bookList;
-        }
-    }
-
-
     public int getCountByPrice(int min, int max) {
         BookExample bookExample = new BookExample();
         // 按照字段升序或者降序
@@ -113,29 +86,10 @@ public class BookDaoImpl{
         return (int) l;
     }
 
-
-    public List<Book> getPageListByPrice(int min, int max, int begin, int size) {
-        List<Book> bookList =null;
-        try {
-            PageHelper.startPage(begin, size);
-            BookExample bookExample = new BookExample();
-            // 按照字段升序或者降序
-            bookExample.setOrderByClause("price DESC");
-            // 创建一个查询准则
-            BookExample.Criteria criteria = bookExample.createCriteria();
-            criteria.andIdBetween(min, max);
-            //紧跟着的第一条查询语句才有用  后面的无分页功能
-            List<Book> books = bookMapper.selectByExample(bookExample);
-            //传入要连续显示多少页
-            PageInfo<Book> bookPageInfo = new PageInfo<>(books, 5);
-            for (Book book : books) {
-                System.out.println(book);
-            }
-            bookList = bookPageInfo.getList();
-        }catch (Exception e){
-            System.out.println(e);
-        }finally {
-            return bookList;
-        }
+    @Override
+    public List<Book> selectByExample(BookExample bookExample) {
+        return bookMapper.selectByExample(bookExample);
     }
+
+
 }
