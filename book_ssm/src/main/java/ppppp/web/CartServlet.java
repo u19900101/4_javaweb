@@ -45,8 +45,7 @@ public class CartServlet{
         //紧跟着的第一条查询语句才有用  后面的无分页功能
         List<Cartitem> cartitemList = cartitemMapper.selectByExample(new CartitemExample());
         //传入要连续显示多少页
-        PageInfo<Cartitem> info = new PageInfo<>(cartitemList, 5);
-        model.addAttribute("info", info);
+        model.addAttribute("info", new PageInfo<>(cartitemList, 5));
 
         User user = (User) req.getSession().getAttribute("user");
         Integer cartId = user.getId();
@@ -57,7 +56,6 @@ public class CartServlet{
             model.addAttribute("totalCount", cart.getCount());
             model.addAttribute("totalPrice", cart.getTotalprice());
         }
-        System.out.println(info);
         return "forward:/pages/cart/cart.jsp";
     }
 

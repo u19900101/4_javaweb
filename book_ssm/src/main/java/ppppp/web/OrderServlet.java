@@ -67,6 +67,8 @@ public class OrderServlet{
         CartitemExample.Criteria criteria = cartitemExample.createCriteria();
         criteria.andCartidEqualTo(cart.getCartid());
         List<Cartitem> cartitems = cartitemMapper.selectByExample(cartitemExample);
+
+        // 加判断 是否 库存充足
         for (Cartitem cartItem:cartitems) {
             OrderItem orderItem = new OrderItem(cartItem.getName(), cartItem.getCount(),
                     cartItem.getPrice(),order.getId());

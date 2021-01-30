@@ -91,6 +91,11 @@
 
                 // 加入购物车
                 $("button.cartBtn").click(function () {
+                    var book_amount = $(this).attr("book_amount");
+                    if(book_amount==0){
+                        alert("商品暂时无货哦，敬请关注...");
+                        return;
+                    }
                     if(${not empty sessionScope.user}){
                         var bookId = $(this).attr("bookId");
                         // 使用ajax修改
@@ -163,7 +168,7 @@
                         <span class="book_amount">${book.stock}</span>
                     </div>
                     <div class="book_add">
-                        <button class="cartBtn" bookId="${book.id}" >加入购物车</button>
+                        <button class="cartBtn" bookId="${book.id}" book_amount="${book.stock}">加入购物车</button>
                     </div>
                 </div>
             </div>
