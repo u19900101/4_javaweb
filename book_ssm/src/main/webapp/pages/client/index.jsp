@@ -103,7 +103,7 @@
                                 $("#lastAddBook").text(data.lastAddBook);
                                 // 首次添加商品则进行刷新操作
                                 if(data.createCart){
-                                        location.href = "client/bookServlet/page";
+                                        location.href = "index.jsp";
                                     }
                                 },
                             "json"
@@ -115,20 +115,23 @@
             });
         </script>
         <div style="text-align: center">
-            <c:if test="${empty sessionScope.cart}">
+            <c:if test="${sessionScope.totalCount == 0}">
                 <div>
                     <span  style="color: red">当前购物车为空</span>
                 </div>
             </c:if>
 
-            <c:if test="${not empty sessionScope.cart}">
+            <c:if test="${sessionScope.totalCount>0}">
+                <%--直接使用 sessionScope.totalCount 是为了配合ajax--%>
+                <div>
+                    您的购物车中有<span style="color: red" id="totalCount">${sessionScope.totalCount}</span>件商品
+                </div>
+                <c:if test="${not empty sessionScope.lastAddBook}">
+                    <div>
+                        您刚刚将<span style="color: red" id="lastAddBook">${sessionScope.lastAddBook}</span>加入到了购物车中
+                    </div>
+                </c:if>
 
-                <div>
-                    您的购物车中有<span style="color: red" id="totalCount"><%--防止刷新时数据为空--%>${sessionScope.totalCount}</span>件商品
-                </div>
-                <div>
-                    您刚刚将<span style="color: red" id="lastAddBook">${sessionScope.lastAddBook}</span>加入到了购物车中
-                </div>
             </c:if>
         </div>
 

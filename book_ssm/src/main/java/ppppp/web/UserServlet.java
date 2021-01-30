@@ -91,6 +91,7 @@ public class UserServlet{
         req.getSession().removeAttribute("user");
         //还要清空购物车session
         req.getSession().removeAttribute("cart");
+        req.getSession().removeAttribute("totalCount");
         return "forward:/pages/client/index.jsp";
     }
 
@@ -111,6 +112,8 @@ public class UserServlet{
             // 购物车中有货的话 一进入就能看到
             if(cart!=null){
                 req.getSession().setAttribute("cart",cart);
+                // 为了第一次能在页面显示 购物车中的数量信息
+                req.getSession().setAttribute("totalCount",cart.getCount());
             }
 
             return "forward:/pages/user/login_success.jsp";

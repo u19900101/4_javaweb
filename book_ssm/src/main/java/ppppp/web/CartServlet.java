@@ -53,23 +53,37 @@ public class CartServlet{
         Cart cart = cartMapper.selectByPrimaryKey(cartId);
 
         model.addAttribute("url", "client/cartServlet/page?");
-        model.addAttribute("totalCount", cart.getCount());
-        model.addAttribute("totalPrice", cart.getTotalprice());
+        if(cart!=null){
+            model.addAttribute("totalCount", cart.getCount());
+            model.addAttribute("totalPrice", cart.getTotalprice());
+        }
         System.out.println(info);
         return "forward:/pages/cart/cart.jsp";
     }
 
 
     @RequestMapping("/updateCount")
-    protected void updateCount(HttpServletRequest req, HttpServletResponse res,Integer id,Integer count) throws ServletException, IOException {
+    protected void updateCount(HttpServletRequest req, HttpServletResponse res,
+                               Integer cartItemid,Integer count) throws ServletException, IOException {
         System.out.println("come into updateCount");
+        Cartitem cartitem = cartitemMapper.selectByPrimaryKey(cartItemid);
+        int orgCount = cartitem.getCount();
+        //1.更新 cartItem
+        cartitem.setCount2(count);// 更新数量时一并更新了总价
+        cartitemMapper.updateByPrimaryKey(cartitem);
+
+        //2.更新cart 中的count 和 total
         User user = (User) req.getSession().getAttribute("user");
         Cart cart = cartMapper.selectByPrimaryKey(user.getId());
+        // 加上数量改变的值
+        cart.setCount(cart.getCount()-orgCount+count);
+        BigDecimal change = cartitem.getPrice().multiply(new BigDecimal(-orgCount+count));
+        cart.setTotalprice(cart.getTotalprice().add(change));
+        cartMapper.updateByPrimaryKey(cart);
 
-        // if(cart.getItems().get(id).getCount()<count){
-        //     req.getSession().setAttribute("lastAddBook",cart.getItems().get(id).getName());
-        // }
-        // cart.updateCount(id,count);
+        req.getSession().setAttribute("totalCount",cart.getCount());
+        req.getSession().setAttribute("lastAddBook",bookService.queryBookById(cartItemid).getName());
+
         res.sendRedirect(req.getHeader("Referer"));
 
     }
@@ -90,10 +104,22 @@ public class CartServlet{
     @RequestMapping("/deleteItem")
     protected void deleteItem(HttpServletRequest req, HttpServletResponse res,Integer cartItemid) throws ServletException, IOException {
         System.out.println("come into deleteItem");
+
+        Cartitem cartitem = cartitemMapper.selectByPrimaryKey(cartItemid);
+        //1.更新 cartItem
         cartitemMapper.deleteByPrimaryKey(cartItemid);
-        // Book book = bookService.queryBookById(id);
-        // book.setStock(book.getStock()-1);
-        // bookService.updateBookById(book);
+        //2.更新cart 中的count 和 total
+        User user = (User) req.getSession().getAttribute("user");
+        Cart cart = cartMapper.selectByPrimaryKey(user.getId());
+
+        //3. 更新页面显示信息
+        cart.setCount(cart.getCount()-cartitem.getCount());
+        cart.setTotalprice(cart.getTotalprice().subtract(cartitem.getTotalprice()));
+        cartMapper.updateByPrimaryKey(cart);
+
+        req.getSession().setAttribute("totalCount",cart.getCount());
+        req.getSession().removeAttribute("lastAddBook");
+
         res.sendRedirect(req.getHeader("Referer"));
     }
 
@@ -115,7 +141,10 @@ public class CartServlet{
             flag = true;
         }
 
-        //将商品单项加入购物车
+        if(req.getSession().getAttribute("lastAddBook")==null){
+            flag = true;
+        }
+        //1.将商品单项加入购物车 库存和销量不会变化
         Book book = bookService.queryBookById(bookId);
 
         // 查看购物车中是否有该商品 若无 则添加  有 则将数量相加

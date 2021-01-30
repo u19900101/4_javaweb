@@ -26,7 +26,7 @@
 					count = count>0?count:-count;
 					if( confirm("你确定要将[" + name + "] 商品修改数量为：" + count + " 吗?") ) {
 						//发起请求。给服务器保存修改
-						location.href = "client/cartServlet/updateCount?count="+count+"&id="+id;
+						location.href = "client/cartServlet/updateCount?count="+count+"&cartItemid="+id;
 					} else {
 						// defaultValue属性是表单项Dom对象的属性。它表示默认的value属性值。
 						this.value = this.defaultValue;
@@ -80,7 +80,7 @@
 						</td>
 						<td>${item.price}</td>
 						<td>${item.totalprice}</td>
-						<td><a class="deleteItem" href="client/cartServlet/deleteItem?id=${item.id}">删除</a></td>
+						<td><a class="deleteItem" href="client/cartServlet/deleteItem?cartItemid=${item.id}">删除</a></td>
 					</tr>
 				</c:forEach>
 			</c:if>

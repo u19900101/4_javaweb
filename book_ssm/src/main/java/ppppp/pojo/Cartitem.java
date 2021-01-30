@@ -51,6 +51,12 @@ public class Cartitem {
         this.count = count;
     }
 
+    // 来级联设置
+    public void setCount2(Integer count) {
+        this.count = count;
+        this.totalprice=price.multiply(new BigDecimal(count));
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
