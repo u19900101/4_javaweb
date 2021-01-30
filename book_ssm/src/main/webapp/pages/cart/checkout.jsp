@@ -24,7 +24,7 @@
 	</div>
 	
 	<div id="main">
-		<h1>你的订单已结算，订单号为${sessionScope.orderId}</h1>
+		<h1>你的订单已提交，订单号为${sessionScope.orderId}</h1>
 		<h1><a href="client/orderServlet/page">查看订单详情</a></h1>
 	</div>
 

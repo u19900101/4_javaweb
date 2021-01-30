@@ -88,7 +88,7 @@ public class CartServlet{
 
     }
     @RequestMapping("/clearCart")
-    protected void clearCart(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void clearCart(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         //1.先清空 cartItem中的项
         Integer cartid = ((User)req.getSession().getAttribute("user")).getId();
         CartitemExample cartitemExample = new CartitemExample();

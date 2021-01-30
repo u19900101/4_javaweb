@@ -44,6 +44,7 @@ public class Cart {
         this.count = count;
     }
 
+
     public BigDecimal getTotalprice() {
         return totalprice;
     }

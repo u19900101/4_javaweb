@@ -35,7 +35,7 @@
 			<td>单价</td>
 			<td>总价</td>
 		</tr>
-		<c:set var="index" value="${(info.pageNum-1)*4}" />
+		<c:set var="index" value="${(info.pageNum-1)*5}" />
 
 		<c:forEach items="${info.list}" var="orderItem">
 			<tr border="2" bgcolor="#4bfca2">

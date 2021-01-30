@@ -15,6 +15,7 @@ import ppppp.service.impl.BookServiceImpl;
 import ppppp.service.impl.OrderServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -76,8 +77,14 @@ public class OrderServlet{
             book.setStock(book.getStock()-cartItem.getCount());
             bookService.updateBookById(book);
         }
-        // 3.类似清空了购物车车
-        req.getSession().removeAttribute("cart");
+        // 3.类似清空了购物车车  修改 书籍的库存和销量 修改 购物车的信息
+        //再清空 cartItem中的项
+        int deleteByExample = cartitemMapper.deleteByExample(cartitemExample);
+        cart.setCount(0);
+        cart.setTotalprice(new BigDecimal(0));
+        cartMapper.updateByPrimaryKey(cart);
+        req.getSession().setAttribute("totalCount",0);
+        req.getSession().removeAttribute("lastAddBook");
         return "redirect:/pages/cart/checkout.jsp";
     }
 
